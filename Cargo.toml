@@ -1,9 +1,13 @@
 [package]
-name = "actix-vercel-test"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+name = "index"
+version = "1.0.0"
+authors = ["Your Name <your@site.com>"]
+edition = "2018"
 
 [dependencies]
-actix-web = "4"
+http = "0.1"
+vercel_lambda = "*"
+
+[lib]
+name = "util"
+path = "_util.rs"

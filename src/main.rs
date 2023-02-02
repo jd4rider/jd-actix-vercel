@@ -1,28 +1,18 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use http::StatusCode;
+use std::error::Error;
+use vercel_lambda::{error::VercelError, lambda, IntoResponse, Request, Response};
 
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+fn handler(_: Request) -> Result<impl IntoResponse, VercelError> {
+    let response = Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "text/plain")
+        .body("Hello World")
+        .expect("Internal Server Error");
+
+    Ok(response)
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
-
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
-}
-
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
-    })
-    .bind(("127.0.0.1", 3000))?
-    .run()
-    .await
+// Start the runtime with the handler
+fn main() -> Result<(), Box<dyn Error>> {
+    Ok(lambda!(handler))
 }
