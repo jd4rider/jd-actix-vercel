@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "http://localhost:8080/$1"
+      "dest": "http://localhost:3000/$1"
     }
   ]
 }
